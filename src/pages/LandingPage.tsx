@@ -116,7 +116,7 @@ const LandingPage = () => {
                 </Button>
               </Link>
               <Link to="/teacher/login">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto border-white text-white hover:bg-white/10">
+                <Button size="lg" variant="secondary" className="w-full sm:w-auto border-white text-black hover:bg-black/10">
                   Teacher Login
                 </Button>
               </Link>
@@ -131,7 +131,7 @@ const LandingPage = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
               <span className="text-xl font-bold text-studyhub-primary">StudyHub SE</span>
-              <p className="text-sm text-gray-600 mt-1">© 2025 Software Engineering Department</p>
+              <p className="text-sm text-gray-600 mt-1">© 2025 Samuel</p>
             </div>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-600 hover:text-studyhub-primary">
