@@ -30,9 +30,9 @@ const App = () => (
             <Route path="/student/login" element={<StudentLogin />} />
             <Route path="/student/register" element={<StudentRegister />} />
             <Route path="/teacher/login" element={<TeacherLogin />} />
-            {/* <Route path="/student/dashboard" element={<StudentDashboard />} />
-            <Route path="/teacher/dashboard" element={<TeacherDashboard />} /> */}
-            {/* <Route path="/past-questions" element={<PastQuestions />} /> */}
+            <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+            <Route path="/past-questions" element={<PastQuestions />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

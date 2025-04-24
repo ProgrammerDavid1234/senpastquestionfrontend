@@ -35,7 +35,7 @@ const StudentRegister = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+  
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Passwords do not match",
@@ -44,33 +44,42 @@ const StudentRegister = () => {
       });
       return;
     }
-    
+  
     setIsLoading(true);
-    
+  
     try {
-      const success = await register({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        matricNumber: formData.matricNumber,
-        level: formData.level,
-        role: "student",
+      const response = await fetch("http://localhost:9000/student/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          matricNumber: formData.matricNumber,
+          level: formData.level,
+          role: "student",
+        }),
       });
-      
-      if (success) {
+  
+      const data = await response.json();
+  
+      if (response.ok) {
         toast({
           title: "Registration successful",
-          description: "Welcome to StudyHub SE!",
+          description: data.message || "Welcome to StudyHub SE!",
         });
         navigate("/student/dashboard");
       } else {
         toast({
           title: "Registration failed",
-          description: "An error occurred during registration",
+          description: data.error || "Something went wrong",
           variant: "destructive",
         });
       }
     } catch (error) {
+      console.error("Registration error:", error);
       toast({
         title: "Registration failed",
         description: "An error occurred. Please try again.",
@@ -80,7 +89,7 @@ const StudentRegister = () => {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

@@ -61,15 +61,9 @@ const StudentDashboard = () => {
 
   useEffect(() => {
     // Check if the user is authenticated and is a student
-    if (!isAuthenticated) {
-      navigate("/student/login");
-      return;
-    }
+
     
-    if (user?.role !== "student") {
-      navigate("/");
-      return;
-    }
+
     
     // Simulate data loading
     const timer = setTimeout(() => {
@@ -98,7 +92,7 @@ const StudentDashboard = () => {
         <div className="max-w-6xl mx-auto">
           <header className="mb-8">
             <h1 className="text-2xl font-bold">Student Dashboard</h1>
-            <p className="text-gray-600">Welcome back, {user?.name}!</p>
+            <p className="text-gray-600">Welcome back</p>
           </header>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

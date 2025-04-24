@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -16,11 +15,10 @@ const StudentLogin = () => {
   const { login } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+  
     try {
       const success = await login(email, password, "student");
       if (success) {
@@ -28,6 +26,7 @@ const StudentLogin = () => {
           title: "Login successful",
           description: "Welcome back to StudyHub SE!",
         });
+        // No need for authentication check, just redirect
         navigate("/student/dashboard");
       } else {
         toast({
@@ -37,6 +36,7 @@ const StudentLogin = () => {
         });
       }
     } catch (error) {
+      console.error("Login error:", error);
       toast({
         title: "Login failed",
         description: "An error occurred. Please try again.",
@@ -46,6 +46,8 @@ const StudentLogin = () => {
       setIsLoading(false);
     }
   };
+  
+  
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -87,8 +89,8 @@ const StudentLogin = () => {
                   required
                 />
               </div>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-studyhub-primary hover:bg-studyhub-primary/90"
                 disabled={isLoading}
               >

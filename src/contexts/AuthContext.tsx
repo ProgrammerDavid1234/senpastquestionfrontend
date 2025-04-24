@@ -28,30 +28,46 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const isAuthenticated = !!user;
 
   // Mock login function - in a real app this would connect to a backend
-  const login = async (email: string, password: string, role: "student" | "teacher"): Promise<boolean> => {
-    // For demo purposes, we'll just accept any email/password
+  const login = async (
+    email: string,
+    password: string,
+    role: "student" | "teacher"
+  ): Promise<boolean> => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Create a mock user
-      const mockUser: User = {
-        id: Math.random().toString(36).substring(2, 9),
-        name: email.split('@')[0], // Just using part of the email as a mock name
-        email,
-        role,
-        matricNumber: role === "student" ? "SW" + Math.floor(Math.random() * 10000) : undefined,
-        level: role === "student" ? "300L" : undefined,
-      };
-
-      setUser(mockUser);
-      localStorage.setItem("user", JSON.stringify(mockUser));
-      return true;
-    } catch (error) {
-      console.error("Login failed:", error);
+      const res = await fetch("http://localhost:9000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const contentType = res.headers.get("content-type");
+      const data = contentType?.includes("application/json")
+        ? await res.json()
+        : { error: await res.text() };
+  
+      if (res.ok) {
+        const userFromBackend: User = {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          role: data.role,
+          matricNumber: data.matricNumber,
+          level: data.level,
+        };
+  
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(userFromBackend));
+        setUser(userFromBackend);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.error("Login failed", err);
       return false;
     }
   };
+  
 
   // Mock register function
   const register = async (userData: Omit<User, "id"> & { password: string }): Promise<boolean> => {
